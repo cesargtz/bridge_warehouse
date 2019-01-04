@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bridge_warehouse,bridge_warehouse_access_rules,model_bridge_warehouse,group_bridge_reception,1,1,1,1
+access_bridge_warehouse_users_purchases,bridge_warehouse_access_rules_users_purchases,model_bridge_warehouse,purchase.group_purchase_user,1,0,0,0
+access_bridge_warehouse_users_sales,bridge_warehouse_access_rules_users_sales,model_bridge_warehouse,sales_team.group_sale_salesman,1,0,0,0

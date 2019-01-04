@@ -1,0 +1,137 @@
+<odoo>
+	<data>
+		<!-- explicit list view definition -->
+		<record id="seq_bridge_warehouse" model="ir.sequence">
+			<field name="name">Bridge Warehouse Code</field>
+			<field name="code">brige.warehouse.code</field>
+			<field name="prefix">BR</field>
+			<field name="padding">3</field>
+			<field name="implementation">no_gap</field>
+			<field name="number_increment">1</field>
+		</record>
+		<record model="ir.ui.view" id="bridge_warehouse_form_view">
+			<field name="name">bridge warehouse form</field>
+			<field name="model">bridge.warehouse</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<!-- groups="truck_reception.group_truck_transfer" -->
+						<button name="transfer" type="object" string="Transfer" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', ['done']), ('stock_picking_purchase_id', '!=', False)]}" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<h1>
+								<label string="Recepcion Puente " />
+								<field name="name" class="oe_inline" readonly="1" />
+							</h1>
+						</div>
+						<group col="3">
+							<group>
+								<field name="purchase_order" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="location_purchase_id" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="product_id" readonly="1" />
+							</group>
+							<group>
+								<field name="sale_order" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="location_sale_id" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+							</group>
+							<group>
+								<field name="datetime" required="1" />
+								<field name="driver" />
+								<field name="car_plates" />
+								<field name="owner_id" required="1" />
+							</group>
+						</group>
+						<group col="2">
+							<group>
+								<field name="humidity_rate" string="Humedad" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="density" string="Densidad" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="temperature" string="Temperatura" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+							</group>
+							<group>
+								<field name="damage_rate" string="Daño" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="break_rate" string="Quebrado" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+								<field name="impurity_rate" string="Impureza" required="1" attrs="{'readonly':[('state', 'not in', ['analysis'])]}" />
+							</group>
+						</group>
+						<group>
+							<group col="1">
+								<group col="2">
+									<field name="input_kilos" string="Kilos de entrada" required="1" attrs="{'readonly':[('state', 'not in', ['weight_input'])]}" />
+								</group>
+								<group col="2">
+									<field name="output_kilos" string="Kilos de salida" required="1" attrs="{'readonly':[('state', 'not in', ['weight_output'])]}" />
+								</group>
+								<group>
+									<field name="raw_kilos" string="Kilos neto" />
+								</group>
+							</group>
+							<group>
+								<field name="broken_kilos" string="Kilos quebrados" />
+								<field name="impure_kilos" string="Kilos impuros" />
+								<field name="damaged_kilos" string="Kilos dañados" />
+								<field name="humid_kilos" string="Kilos humedos" />
+								<field name="clean_kilos" string="Kilos limpios" />
+							</group>
+						</group>
+						<group col="4">
+							<field name="stock_picking_purchase_id" attrs="{'invisible': [('state', 'not in', 'done')]}" />
+							<field name="stock_picking_sale_id" attrs="{'invisible': [('state', 'not in', 'done')]}" />
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="bridge_warehouse_list">
+			<field name="name">Bridge warehouse list</field>
+			<field name="model">bridge.warehouse</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" string="Referencia" />
+					<field name="purchase_order" />
+					<field name="sale_order" />
+					<field name="input_kilos" />
+					<field name="output_kilos" />
+					<field name="clean_kilos" sum="clean_kilos" />
+					<field name="datetime" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		<!-- actions opening views on models -->
+		<record model="ir.actions.act_window" id="bridge_warehouse.action_window">
+			<field name="name">Recepcion Puente</field>
+			<field name="res_model">bridge.warehouse</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Crea el primer movimiento de almacén puente.
+				</p>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="bridge_reception_search_view">
+			<field name="name">bridge.warehouse.search</field>
+			<field name="model">bridge.warehouse</field>
+			<field name="arch" type="xml">
+				<search>
+          <field name="name" string="Referencia"/>
+					<field name="purchase_order" string="Contrato de compra"/>
+					<field name="sale_order" string="Contrato de venta"/>
+					<separator />
+					<group string="Group By">
+						<filter name="group_by_state" string="Estado" context="{'group_by': 'state'}" />
+						<filter name="group_by_purchase" string="Contrato de Compra" context="{'group_by': 'purchase_order'}" />
+						<filter name="group_by_sale" string="Contrato de Venta" context="{'group_by': 'sale_order'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		<menuitem id="menu_action_bridge_warehouse_form" parent="vehicle_reception.menu_receptions" name="Recepcion Puente" action="bridge_warehouse.action_window" sequence="50" groups="group_bridge_reception" />
+	</data>
+</odoo>
