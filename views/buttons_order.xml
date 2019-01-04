@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
                 <button name="action_view_invoice" position="after">
-                    <button type="object" class="oe_stat_button" nolabel="1" name="bridge_reception_tree"  icon="fa-exchange" groups="bridge_warehouse.group_bridge_reception" attrs="{'invisible':[('bridge_purchase_count', '=', 0)]}">
+                    <button type="object" class="oe_stat_button" nolabel="1" name="bridge_reception_tree"  icon="fa-exchange" groups="bridge_warehouse.group_bridge_reception" attrs="{'invisible':[('bridge_purchase_count', '=', '0.0tn')]}">
                         <field name="bridge_purchase_count" string="Puente" widget="statinfo"/>
                     </button>
                 </button>
@@ -21,7 +21,7 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <button name="action_view_invoice" position="after">
-                    <button type="object" class="oe_stat_button" nolabel="1" name="bridge_reception_tree"  icon="fa-exchange"   groups="bridge_warehouse.group_bridge_reception" attrs="{'invisible':[('bridge_sale_count', '=', 0)]}">
+                    <button type="object" class="oe_stat_button" nolabel="1" name="bridge_reception_tree"  icon="fa-exchange"   groups="bridge_warehouse.group_bridge_reception" attrs="{'invisible':[('bridge_sale_count', '=', '0.0tn')]}">
                         <field name="bridge_sale_count" string="Puente" widget="statinfo"/>
                     </button>
                 </button>
